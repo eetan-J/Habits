@@ -1,0 +1,587 @@
+/* ============================================================
+   HABITS // LED-RETRO DESIGN SYSTEM
+   Responsive for mobile + desktop
+   ============================================================ */
+
+:root {
+  --bg:         #0c0c0f;
+  --surface:    #12121a;
+  --surface-2:  #1a1a28;
+  --border:     #2a2a40;
+  --border-glow:#3a3a60;
+
+  --led-green:  #00ff9f;
+  --led-amber:  #ffaa00;
+  --led-red:    #ff3131;
+  --led-blue:   #00aaff;
+  --led-dim:    #1a2a1a;
+
+  --text-hi:    #e8e8f0;
+  --text-mid:   #8888aa;
+  --text-lo:    #44445a;
+
+  --font-mono:  'Share Tech Mono', 'Courier New', monospace;
+  --font-head:  'Orbitron', 'Share Tech Mono', monospace;
+
+  --radius-sm:  4px;
+  --radius:     8px;
+  --radius-lg:  14px;
+
+  --glow-green: 0 0 6px #00ff9f88, 0 0 18px #00ff9f44;
+  --glow-amber: 0 0 6px #ffaa0088, 0 0 18px #ffaa0044;
+  --glow-red:   0 0 6px #ff313188, 0 0 18px #ff313144;
+
+  --transition: 150ms ease;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-hi);
+  font-family: var(--font-mono);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── CRT Scanlines Overlay ────────────────────────────────── */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,.08) 3px,
+    rgba(0,0,0,.08) 4px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logo {
+  font-family: var(--font-head);
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  font-weight: 900;
+  letter-spacing: .12em;
+  color: var(--led-green);
+  text-shadow: var(--glow-green);
+  white-space: nowrap;
+}
+
+.logo-bracket {
+  color: var(--text-mid);
+  font-weight: 400;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.date-display {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--text-mid);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.streak-badge {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--led-amber);
+  text-shadow: var(--glow-amber);
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+/* ── Main Layout ──────────────────────────────────────────── */
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Add Habit Form ───────────────────────────────────────── */
+.add-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.input-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-hi);
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  letter-spacing: .06em;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  text-transform: uppercase;
+}
+
+.habit-input::placeholder { color: var(--text-lo); }
+
+.habit-input:focus {
+  border-color: var(--led-green);
+  box-shadow: var(--glow-green), inset 0 0 10px rgba(0,255,159,.05);
+}
+
+/* Color picker */
+.color-picker-wrap {
+  position: relative;
+  width: 42px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.color-dot-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.color-dot {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  transition: box-shadow var(--transition);
+  pointer-events: none;
+}
+
+.color-picker-wrap:hover .color-dot {
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* Add button */
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--led-green);
+  border: none;
+  border-radius: var(--radius);
+  color: #000;
+  cursor: pointer;
+  font-family: var(--font-head);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  padding: 10px 16px;
+  flex-shrink: 0;
+  transition: box-shadow var(--transition), opacity var(--transition);
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  box-shadow: var(--glow-green);
+}
+
+.btn-add:active { opacity: .8; }
+
+.btn-add-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ── Grid Section ─────────────────────────────────────────── */
+.grid-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Week header */
+.week-header {
+  display: grid;
+  grid-template-columns: 1fr repeat(7, 32px);
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.week-label {
+  font-size: .62rem;
+  color: var(--text-lo);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.day-label {
+  font-size: .62rem;
+  color: var(--text-mid);
+  letter-spacing: .06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.day-label.is-today {
+  color: var(--led-green);
+  text-shadow: var(--glow-green);
+}
+
+/* ── Habits List ──────────────────────────────────────────── */
+.habits-list {
+  padding: 8px 0;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-lo);
+}
+
+.empty-icon {
+  font-size: 2.4rem;
+  margin-bottom: 14px;
+  color: var(--border-glow);
+}
+
+.empty-state p {
+  font-size: .78rem;
+  letter-spacing: .14em;
+  line-height: 2;
+}
+
+.empty-sub {
+  color: var(--text-lo) !important;
+  font-size: .68rem !important;
+}
+
+/* Habit row */
+.habit-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(7, 32px);
+  gap: 6px;
+  align-items: center;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+.habit-row:last-child { border-bottom: none; }
+
+.habit-row:hover { background: var(--surface-2); }
+
+.habit-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.habit-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow var(--transition);
+}
+
+.habit-name {
+  font-size: .82rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-delete {
+  background: none;
+  border: none;
+  color: var(--text-lo);
+  cursor: pointer;
+  font-size: .8rem;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+  transition: color var(--transition);
+  flex-shrink: 0;
+}
+
+.habit-delete:hover { color: var(--led-red); }
+
+/* LED check dots */
+.led-dot {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.led-dot:hover { background: var(--surface-2); }
+
+.led-dot-inner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--led-dim);
+  border: 1px solid var(--border);
+  transition: background var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.led-dot.is-checked .led-dot-inner {
+  background: var(--dot-color, var(--led-green));
+  border-color: var(--dot-color, var(--led-green));
+  box-shadow: 0 0 6px var(--dot-color, var(--led-green)), 0 0 18px color-mix(in srgb, var(--dot-color, var(--led-green)) 40%, transparent);
+}
+
+.led-dot.is-future {
+  opacity: .35;
+  pointer-events: none;
+}
+
+.led-dot.is-today .led-dot-inner {
+  border-color: var(--text-mid);
+}
+
+/* ── Progress Bar ─────────────────────────────────────────── */
+.progress-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: var(--text-mid);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.progress-track {
+  position: relative;
+  height: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--led-green);
+  width: 0%;
+  transition: width 400ms cubic-bezier(.4,0,.2,1);
+  box-shadow: var(--glow-green);
+}
+
+.progress-leds {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 2px;
+  padding: 0 2px;
+  pointer-events: none;
+}
+
+.progress-led {
+  flex: 1;
+  border-right: 1px solid rgba(0,0,0,.3);
+}
+
+/* ── Modal ────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--led-red);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 30px rgba(255,49,49,.25);
+  padding: 28px 24px 20px;
+  max-width: 340px;
+  width: 100%;
+}
+
+.modal-title {
+  font-family: var(--font-head);
+  font-size: .9rem;
+  letter-spacing: .14em;
+  color: var(--led-red);
+  text-shadow: var(--glow-red);
+  margin-bottom: 12px;
+}
+
+.modal-body {
+  font-size: .82rem;
+  color: var(--text-mid);
+  letter-spacing: .06em;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-modal {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .1em;
+  border-radius: var(--radius);
+  border: 1px solid;
+  cursor: pointer;
+  padding: 8px 18px;
+  transition: box-shadow var(--transition), opacity var(--transition);
+}
+
+.btn-cancel {
+  background: transparent;
+  border-color: var(--border-glow);
+  color: var(--text-mid);
+}
+
+.btn-cancel:hover { border-color: var(--text-mid); }
+
+.btn-confirm {
+  background: var(--led-red);
+  border-color: var(--led-red);
+  color: #fff;
+}
+
+.btn-confirm:hover { box-shadow: var(--glow-red); }
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+/* Tablet & up */
+@media (min-width: 600px) {
+  .main { padding: 32px 24px 60px; }
+
+  .week-header {
+    grid-template-columns: 1fr repeat(7, 38px);
+  }
+
+  .habit-row {
+    grid-template-columns: 1fr repeat(7, 38px);
+  }
+
+  .led-dot { width: 38px; height: 38px; }
+  .led-dot-inner { width: 18px; height: 18px; }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .header-inner { padding: 16px 24px; }
+
+  .main { padding: 36px 0 80px; }
+
+  .week-header {
+    grid-template-columns: 1fr repeat(7, 44px);
+    padding: 12px 20px;
+  }
+
+  .habit-row {
+    grid-template-columns: 1fr repeat(7, 44px);
+    padding: 9px 20px;
+  }
+
+  .led-dot { width: 44px; height: 44px; }
+  .led-dot-inner { width: 20px; height: 20px; }
+
+  .add-section { padding: 20px; }
+  .progress-section { padding: 20px; }
+}
+
+/* Small mobile — hide ADD label, shrink inputs */
+@media (max-width: 380px) {
+  .btn-add-label { display: none; }
+  .btn-add { padding: 10px 12px; }
+
+  .week-header { grid-template-columns: 1fr repeat(7, 28px); gap: 4px; padding: 8px 10px; }
+  .habit-row  { grid-template-columns: 1fr repeat(7, 28px); gap: 4px; padding: 6px 10px; }
+  .led-dot    { width: 28px; height: 28px; }
+  .led-dot-inner { width: 14px; height: 14px; }
+  .day-label  { font-size: .56rem; }
+}
+
+/* Motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  .progress-fill { transition: none !important; }
+}
