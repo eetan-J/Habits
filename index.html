@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#F2F2F7" />
+  <title>Habits</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- App Shell -->
+  <div id="app">
+
+    <!-- Navigation Bar -->
+    <header class="nav-bar" id="navBar">
+      <div class="nav-bar__left">
+        <button class="nav-btn" id="navLeftBtn" style="display:none;"></button>
+      </div>
+      <h1 class="nav-bar__title" id="navTitle">Today</h1>
+      <div class="nav-bar__right">
+        <button class="nav-btn nav-btn--icon" id="navRightBtn" aria-label="Add habit">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" fill="#007AFF" opacity="0.12"/>
+            <path d="M14 8v12M8 14h12" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content" id="content">
+
+      <!-- TODAY TAB -->
+      <section class="tab-pane active" id="tabToday">
+        <div class="date-header">
+          <p class="date-header__day" id="todayWeekday"></p>
+          <p class="date-header__date" id="todayDate"></p>
+        </div>
+
+        <!-- Progress Ring -->
+        <div class="progress-card">
+          <div class="progress-ring-wrap">
+            <svg class="progress-ring" width="100" height="100" viewBox="0 0 100 100">
+              <circle class="progress-ring__track" cx="50" cy="50" r="42" />
+              <circle class="progress-ring__fill" id="progressRingFill" cx="50" cy="50" r="42" />
+            </svg>
+            <div class="progress-ring__label">
+              <span class="progress-ring__num" id="progressNum">0</span>
+              <span class="progress-ring__total" id="progressTotal">/0</span>
+            </div>
+          </div>
+          <div class="progress-card__text">
+            <p class="progress-card__title" id="progressTitle">All done!</p>
+            <p class="progress-card__sub" id="progressSub">Keep up the great work 🎉</p>
+          </div>
+        </div>
+
+        <!-- Habit List for Today -->
+        <div class="section-header">
+          <h2 class="section-header__title">My Habits</h2>
+        </div>
+        <ul class="habit-list" id="todayHabitList">
+          <!-- Populated by JS -->
+        </ul>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="todayEmpty" style="display:none;">
+          <div class="empty-state__icon">🌱</div>
+          <p class="empty-state__title">No habits yet</p>
+          <p class="empty-state__sub">Tap <strong>+</strong> to add your first habit</p>
+        </div>
+      </section>
+
+      <!-- HABITS TAB -->
+      <section class="tab-pane" id="tabHabits">
+        <div class="section-header">
+          <h2 class="section-header__title">All Habits</h2>
+        </div>
+        <ul class="habit-list habit-list--manage" id="allHabitList">
+          <!-- Populated by JS -->
+        </ul>
+        <div class="empty-state" id="habitsEmpty" style="display:none;">
+          <div class="empty-state__icon">📋</div>
+          <p class="empty-state__title">No habits yet</p>
+          <p class="empty-state__sub">Tap <strong>+</strong> to start tracking</p>
+        </div>
+      </section>
+
+      <!-- STATS TAB -->
+      <section class="tab-pane" id="tabStats">
+        <div class="section-header">
+          <h2 class="section-header__title">Statistics</h2>
+        </div>
+        <div class="stats-grid" id="statsGrid">
+          <!-- Populated by JS -->
+        </div>
+        <div class="section-header">
+          <h2 class="section-header__title">Streaks</h2>
+        </div>
+        <ul class="streak-list" id="streakList">
+          <!-- Populated by JS -->
+        </ul>
+        <div class="empty-state" id="statsEmpty" style="display:none;">
+          <div class="empty-state__icon">📊</div>
+          <p class="empty-state__title">No data yet</p>
+          <p class="empty-state__sub">Complete habits to see your stats</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Tab Bar -->
+    <nav class="tab-bar">
+      <button class="tab-bar__item active" data-tab="today" aria-label="Today">
+        <svg class="tab-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="4" width="18" height="17" rx="3" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 2v4M8 2v4M3 9h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="8" cy="14" r="1.2" fill="currentColor"/>
+          <circle cx="12" cy="14" r="1.2" fill="currentColor"/>
+          <circle cx="16" cy="14" r="1.2" fill="currentColor"/>
+        </svg>
+        <span class="tab-bar__label">Today</span>
+      </button>
+      <button class="tab-bar__item" data-tab="habits" aria-label="Habits">
+        <svg class="tab-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span class="tab-bar__label">Habits</span>
+      </button>
+      <button class="tab-bar__item" data-tab="stats" aria-label="Stats">
+        <svg class="tab-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M4 20V14M9 20V10M14 20V6M19 20V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span class="tab-bar__label">Stats</span>
+      </button>
+    </nav>
+
+  </div><!-- /#app -->
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- Add / Edit Habit Modal -->
+  <div class="modal-overlay" id="habitModal" role="dialog" aria-modal="true" aria-labelledby="habitModalTitle">
+    <div class="modal-sheet" id="habitModalSheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <button class="modal-btn modal-btn--cancel" id="habitModalCancel">Cancel</button>
+        <h2 class="modal-title" id="habitModalTitle">New Habit</h2>
+        <button class="modal-btn modal-btn--done" id="habitModalSave">Add</button>
+      </div>
+
+      <!-- Emoji picker row -->
+      <div class="form-group">
+        <label class="form-label">Icon</label>
+        <div class="emoji-grid" id="emojiGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label class="form-label" for="habitNameInput">Name</label>
+        <input
+          class="form-input"
+          type="text"
+          id="habitNameInput"
+          placeholder="e.g. Morning Run"
+          maxlength="40"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Color -->
+      <div class="form-group">
+        <label class="form-label">Color</label>
+        <div class="color-picker" id="colorPicker">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true">
+    <div class="modal-alert">
+      <h3 class="modal-alert__title">Delete Habit?</h3>
+      <p class="modal-alert__msg">This will permanently delete <strong id="deleteHabitName"></strong> and all its history.</p>
+      <div class="modal-alert__actions">
+        <button class="modal-alert__btn modal-alert__btn--cancel" id="deleteCancelBtn">Cancel</button>
+        <button class="modal-alert__btn modal-alert__btn--destructive" id="deleteConfirmBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
