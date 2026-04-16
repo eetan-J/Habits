@@ -417,7 +417,7 @@ function buildModalPickers() {
 
 function openAddHabit() {
   editingId    = null;
-  modalEmoji   = EMOJIS[Math.floor(Math.random() * 8)];
+  modalEmoji   = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
   modalColour  = COLOURS[Math.floor(Math.random() * COLOURS.length)].hex;
 
   dom.habitModalTitle.textContent  = 'New Habit';
