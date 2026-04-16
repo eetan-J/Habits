@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITS // TRACKER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">HABITS</span>
+        <span class="logo-bracket">]</span>
+      </div>
+      <div class="header-meta">
+        <span class="date-display" id="dateDisplay"></span>
+        <span class="streak-badge" id="streakBadge" title="Current streak"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Add Habit Form -->
+    <section class="add-section" aria-label="Add new habit">
+      <form class="add-form" id="addForm" autocomplete="off">
+        <div class="input-row">
+          <div class="input-wrap">
+            <input
+              class="habit-input"
+              id="habitInput"
+              type="text"
+              placeholder="NEW HABIT..."
+              maxlength="48"
+              aria-label="New habit name"
+            />
+          </div>
+          <div class="color-picker-wrap" title="Pick a color">
+            <input class="color-dot-input" id="colorInput" type="color" value="#00ff9f" aria-label="Habit color" />
+            <span class="color-dot" id="colorDot" style="background:#00ff9f"></span>
+          </div>
+          <button class="btn-add" type="submit" aria-label="Add habit">
+            <span class="btn-add-icon">+</span>
+            <span class="btn-add-label">ADD</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Week Header -->
+    <section class="grid-section" aria-label="Habit tracker">
+      <div class="week-header" id="weekHeader" aria-hidden="true"></div>
+
+      <!-- Habits List -->
+      <div class="habits-list" id="habitsList" role="list">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">◈</div>
+          <p>NO HABITS TRACKED YET</p>
+          <p class="empty-sub">ADD YOUR FIRST HABIT ABOVE</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Bar -->
+    <section class="progress-section" aria-label="Today's progress">
+      <div class="progress-label">
+        <span>TODAY</span>
+        <span id="progressCount">0 / 0</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-leds" id="progressLeds"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+      <div class="modal-title" id="modalTitle">DELETE HABIT?</div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn-modal btn-cancel" id="modalCancel">CANCEL</button>
+        <button class="btn-modal btn-confirm" id="modalConfirm">DELETE</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
