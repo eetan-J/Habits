@@ -217,7 +217,7 @@ function renderProgress() {
   const bar = $('progressBar');
   bar.setAttribute('aria-valuenow', pct);
 
-  // Color shift: green → amber → red inverse
+  // Color shift: red (low) → amber (mid) → green (complete)
   if (pct === 100) {
     fill.style.background = 'var(--led-green)';
     fill.style.boxShadow = 'var(--glow-green)';
@@ -225,8 +225,8 @@ function renderProgress() {
     fill.style.background = 'var(--led-amber)';
     fill.style.boxShadow = 'var(--glow-amber)';
   } else {
-    fill.style.background = 'var(--led-green)';
-    fill.style.boxShadow = 'var(--glow-green)';
+    fill.style.background = 'var(--led-red)';
+    fill.style.boxShadow = 'var(--glow-red)';
   }
 
   // LED segment dividers
